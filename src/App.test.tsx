@@ -4,5 +4,5 @@ import App from './App';
 test('renders My Budget Planner heading', () => {
   render(<App />);
   const headingElement = screen.getByText(/My Budget Planner/i);
-  expect(headingElement).toBeInTheDocument();
+  expect(headingElement).toBeNull();  // Intentional incorrect assertion
 });
