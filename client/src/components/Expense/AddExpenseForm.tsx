@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { Expense } from "../../types/types";
 import { v4 as uuidv4 } from "uuid"; // Install uuid if you haven't already
+import { createExpense } from "../../utils/expense-utils";
 
 const AddExpenseForm = () => {
   // Consume the AppContext here
@@ -20,7 +21,7 @@ const AddExpenseForm = () => {
       name: name,
       cost: parseInt(cost),
     };
-
+    createExpense(newExpense); 
     setExpenses([...expenses, newExpense]);
 
     // Reset form fields

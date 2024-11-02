@@ -6,6 +6,23 @@ import { Expense } from "../../types/types";
 const ExpenseList = () => {
   const { expenses } = useContext(AppContext);
 
+// Fetch expenses on component mount
+useEffect(() => {
+	loadExpenses();
+  }, []);
+
+  // Function to load expenses and handle errors
+  const loadExpenses = async () => {
+	try {
+  	const expenseList = await fetchExpenses();
+  	setExpenses(expenseList);
+	} catch (err: any) {
+  	console.log(err.message);
+	}
+  };
+
+
+
   return (
     <ul className="list-group">
       {expenses.map((expense: Expense) => (
@@ -19,5 +36,6 @@ const ExpenseList = () => {
     </ul>
   );
 };
+
 
 export default ExpenseList;
