@@ -1,51 +1,58 @@
-import React, { useEffect, useState, seContext } from "react";
-import { AppContext } from "../../context/AppContext";
-import { fetchBudget } from "../../utils/budget-utils";
-
-// const Budget = () => {
-//   const { budget } = useContext(AppContext);
+import { AppContext } from "../../context/AppContext"
+import { useContext, useEffect } from "react"
+import { fetchBudget, updateBudget } from "../../utils/budget-utils";
 
 
+const Budget = () => {
+  
+  const {budget, setBudget} = useContext(AppContext)
 
-
-//   return (
-//     <div className="alert alert-secondary p-3 d-flex align-items-center justify-content-between">
-//       <div>Budget: ${budget}</div>
-//     </div>
-//   );
-// };
-
-// export default Budget;
-
-
-const Budget: React.FC = () => {
-  const [budget, setBudget] = useState<number | null>(null); // State to store the budget
-  const [error, setError] = useState<string | null>(null);   // State to store any error messages
 
   useEffect(() => {
-      // Function to fetch the budget on component mount
-      const loadBudget = async () => {
-          try {
-              const budgetValue = await fetchBudget(); // Call the fetchBudget function
-              setBudget(budgetValue);                 // Update the state with the fetched budget
-          } catch (err) {
-              setError("Failed to load budget");       // Set error message if fetching fails
-              console.error(err);                      // Log error for debugging
-          }
-      };
+    fetchTheBudget();
+  }, [])
 
-      loadBudget(); // Execute the loadBudget function when component mounts
-  }, []); // Empty dependency array to run only on mount
+  const fetchTheBudget = async () => {
+    try {
+      const budget = await fetchBudget();
+      setBudget(budget);
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  }
+
+
+  const handleBudgetChange = (e: any) => {
+    setBudget(e.target.value);
+  }
+
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // PUT
+    updateBudget(budget)
+  };
 
   return (
-      <div>
-          <h1>Budget</h1>
-          {error ? (
-              <p style={{ color: "red" }}>{error}</p>    // Display error if any
-          ) : (
-              <p>{budget !== null ? `$${budget}` : "Loading..."}</p> // Display budget or loading text
-          )}
-      </div>
+    <div className="alert alert-secondary p-3 d-flex align-items-center justify-content-between">
+      <form onSubmit={(event) => onSubmit(event)}>
+        <div>
+          Budget: ${budget.toString()}
+          <input
+              required
+              type="number"
+              className="form-control"
+              id="name"
+              value={budget}
+              onChange={handleBudgetChange}
+            ></input>
+
+            <button type="submit" className="btn btn-primary mt-3">
+              Save
+            </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -1,23 +1,24 @@
-import React, { useContext } from "react";
 import { Expense } from "../../types/types";
 import { AppContext } from "../../context/AppContext";
+import { useContext } from "react";
+import { deleteExpense } from "../../utils/expense-utils";
 
-const ExpenseItem = ({ id, name, cost }: Expense) => {
-  const { expenses, setExpenses } = useContext(AppContext);
+const ExpenseItem = (currentExpense: Expense) => {
 
-  const handleDeleteExpense = () => {
-    const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-    setExpenses(updatedExpenses);
+  const {expenses, setExpenses} = useContext(AppContext);
+  const handleDeleteExpense = (currentExpense: Expense) => {
+  
+    const newExpenses = expenses.filter((expense) => expense.id !== currentExpense.id);
+    setExpenses(newExpenses);
+    deleteExpense(currentExpense.id);
   };
 
   return (
     <li className="list-group-item d-flex justify-content-between align-items-center">
-      <div>{name}</div>
-      <div>${cost}</div>
+      <div>{currentExpense.name}</div>
+      <div>${currentExpense.cost}</div>
       <div>
-        <button onClick={handleDeleteExpense} aria-label="Delete Expense">
-          x
-        </button>
+        <button onClick={() => handleDeleteExpense(currentExpense)}>x</button>
       </div>
     </li>
   );
