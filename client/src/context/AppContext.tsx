@@ -2,8 +2,6 @@ import { createContext, useState } from "react";
 import { Expense } from "../types/types";
 import Budget from "../components/Budget/Budget";
 
-// Exercise: Create add budget to the context
-
 interface AppContextType {
   expenses: Expense[];
   setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;

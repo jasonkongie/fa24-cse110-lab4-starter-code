@@ -3,7 +3,7 @@ import { AppContext } from "../context/AppContext";
 
 const Remaining = () => {
   const { expenses } = useContext(AppContext);
-  const budget = 1000; // Hardcoded budget for Exercise 2
+  const budget = 1000; 
 
   const totalExpenses = expenses.reduce((total, item) => {
     return total + item.cost;
@@ -12,7 +12,6 @@ const Remaining = () => {
   const remaining = budget - totalExpenses;
   const alertType = remaining < 0 ? "alert-danger" : "alert-success";
 
-  // Show a physical alert when remaining goes below zero
   useEffect(() => {
     if (remaining < 0) {
       alert("Warning: Your remaining budget is below zero!");

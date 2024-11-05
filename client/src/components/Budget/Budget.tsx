@@ -29,7 +29,7 @@ const Budget = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // PUT
+
     updateBudget(budget)
   };
 
